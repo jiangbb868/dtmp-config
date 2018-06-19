@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: microservice-gateway-zuul
+
+server:
+  port: 9201
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:9101/eureka/,http://peer2:9102/eureka/
+      enabled: true
+      registerWithEureka: true
+      fetchRegistry: true
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+
+zuul:
+  routes:
+    microservice-sso-web: /sso-web/**
+    microservice-sso-service: /sso-service/**
+  ignored-services: microservice-sso-web
+  PreRequestLogFilter:
+    pre:
+      disable: false

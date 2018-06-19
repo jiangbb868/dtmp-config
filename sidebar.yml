@@ -1,0 +1,24 @@
+server:
+  port: 9521
+
+spring:
+  application:
+    name: microservice-sidecar
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:9101/eureka/,http://peer2:9102/eureka/
+      enabled: true
+      registerWithEureka: true
+      fetchRegistry: true
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+
+sidecar:
+  port: 9351
+  health-uri: http://localhost:9351/health.json
